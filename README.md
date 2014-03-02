@@ -1,4 +1,4 @@
-﻿# Time-Based One-Time Password
+﻿# C# One-Time Password
 
 TODO
 
