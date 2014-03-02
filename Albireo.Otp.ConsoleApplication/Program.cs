@@ -6,7 +6,7 @@
     {
         public static void Main()
         {
-            Console.Title = "One-Time Password Generator";
+            Console.Title = "C# One-Time Password";
         }
     }
 }
