@@ -14,7 +14,7 @@ licensed under the [Apache license version 2.0].
 The tests vectors for the HOTP implementations are taken from [RFC 4226]'s
 [Appendix D].
 
-The tests vectors for the HOTP implementations are taken from [RFC 6238]'s
+The tests vectors for the TOTP implementations are taken from [RFC 6238]'s
 [Appendix B].
 
 
