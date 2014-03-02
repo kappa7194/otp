@@ -1,6 +1,6 @@
 ﻿namespace Albireo.Otp.Library
 {
-    public class Hotp : Otp
+    public class Hotp : OtpBase
     {
         public Hotp(string secret, int digits = DefaultDigits) : base(secret, digits)
         {

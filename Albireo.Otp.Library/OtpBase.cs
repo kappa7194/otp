@@ -6,14 +6,14 @@
     using System.Linq;
     using System.Security.Cryptography;
 
-    public abstract class Otp
+    public abstract class OtpBase
     {
         public const int DefaultDigits = 6;
 
         private readonly string secret;
         private readonly int digits;
 
-        protected Otp(string secret, int digits = DefaultDigits)
+        protected OtpBase(string secret, int digits = DefaultDigits)
         {
             this.secret = secret;
             this.digits = digits;

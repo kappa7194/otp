@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class Totp : Otp
+    public class Totp : OtpBase
     {
         public const int DefaultInterval = 30;
 
