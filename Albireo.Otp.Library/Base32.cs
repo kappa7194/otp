@@ -1,13 +1,15 @@
 ﻿namespace Albireo.Otp.Library
 {
     using System;
+    using System.Diagnostics.Contracts;
     using System.Linq;
 
     internal static class Base32
     {
         internal static byte[] ToBytes(string input)
         {
-            if (input == null) throw new ArgumentNullException("input");
+            Contract.Requires<ArgumentNullException>(input != null);
+            Contract.Ensures(Contract.Result<byte[]>() != null);
             if (input.Length == 0) return new byte[0];
             input = input.TrimEnd('=');
             var byteCount = input.Length * 5 / 8;
@@ -41,7 +43,8 @@
 
         internal static string ToString(byte[] input)
         {
-            if (input == null) throw new ArgumentNullException("input");
+            Contract.Requires<ArgumentNullException>(input != null);
+            Contract.Ensures(Contract.Result<string>() != null);
             if (input.Length == 0) return string.Empty;
             var charCount = (int) Math.Ceiling(input.Length / 5d) * 8;
             var result = new char[charCount];

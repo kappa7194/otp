@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using System.Globalization;
     using System.Linq;
     using System.Security.Cryptography;
@@ -13,6 +14,11 @@
 
         internal static int GetCode(string secret, long counter, int digits)
         {
+            Contract.Requires<ArgumentNullException>(secret != null);
+            Contract.Requires<ArgumentOutOfRangeException>(counter >= 0);
+            Contract.Requires<ArgumentOutOfRangeException>(digits > 0);
+            Contract.Ensures(Contract.Result<int>() > 0);
+            Contract.Ensures(Contract.Result<int>() < Math.Pow(10, digits));
             secret = Base32.ToString(Encoding.UTF8.GetBytes(secret));
             var generator = new HMACSHA1(Base32.ToBytes(secret));
             generator.ComputeHash(CounterToBytes(counter));
@@ -24,6 +30,8 @@
 
         private static byte[] CounterToBytes(long counter)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(counter >= 0);
+            Contract.Ensures(Contract.Result<byte[]>() != null);
             var result = new List<byte>();
             while (counter != 0)
             {
