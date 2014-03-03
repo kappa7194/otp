@@ -8,7 +8,7 @@ The `Base32` class is adapted from [Shane]'s answer to the [Base32 Decoding]
 StackOverflow question and is licensed under the [Creative Commons BY-SA 3.0]
 license.
 
-The `OtpBase` class is adapted from [Nathan Adams]'s OTP class from [OTPNet] and is
+The `Otp` class is adapted from [Nathan Adams]'s OTP class from [OTPNet] and is
 licensed under the [Apache license version 2.0].
 
 The tests vectors for the HOTP implementations are taken from [RFC 4226]'s
