@@ -2,25 +2,16 @@
 {
     using System;
 
-    public class Totp : OtpBase
+    public static class Totp
     {
-        public const int DefaultInterval = 30;
+        private const int DefaultInterval = 30;
 
-        private readonly int interval;
+        private static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
-        public Totp(string secret, int interval = DefaultInterval, int digits = DefaultDigits) : base(secret, digits)
+        public static int GetCode(string secret, DateTime date, int digits = Otp.DefaultDigits, int interval = DefaultInterval)
         {
-            this.interval = interval;
-        }
-
-        public int GetCode()
-        {
-            return this.GetCode(DateTime.UtcNow);
-        }
-
-        public int GetCode(DateTime utcDate)
-        {
-            return base.Generate((long) (utcDate.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds * 1000) / (this.interval * 1000));
+            date = date.Kind == DateTimeKind.Utc ? date : date.ToUniversalTime();
+            return Otp.GetCode(secret, (long) (date.Subtract(Epoch).TotalSeconds * 1000) / (interval * 1000), digits);
         }
     }
 }

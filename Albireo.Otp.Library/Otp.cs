@@ -5,28 +5,21 @@
     using System.Globalization;
     using System.Linq;
     using System.Security.Cryptography;
+    using System.Text;
 
-    public abstract class OtpBase
+    internal static class Otp
     {
-        public const int DefaultDigits = 6;
+        internal const int DefaultDigits = 6;
 
-        private readonly string secret;
-        private readonly int digits;
-
-        protected OtpBase(string secret, int digits = DefaultDigits)
+        internal static int GetCode(string secret, long counter, int digits)
         {
-            this.secret = secret;
-            this.digits = digits;
-        }
-
-        protected int Generate(long counter)
-        {
-            var generator = new HMACSHA1(Base32.ToBytes(this.secret));
+            secret = Base32.ToString(Encoding.UTF8.GetBytes(secret));
+            var generator = new HMACSHA1(Base32.ToBytes(secret));
             generator.ComputeHash(CounterToBytes(counter));
             var hmac = generator.Hash.Select(b => int.Parse(b.ToString("x2"), NumberStyles.HexNumber)).ToArray();
             var offset = hmac[19] & 0xF;
             var code = (hmac[offset + 0] & 0x7F) << 24 | (hmac[offset + 1] & 0xFF) << 16 | (hmac[offset + 2] & 0xFF) << 8 | (hmac[offset + 3] & 0xFF);
-            return code % (int) Math.Pow(10, this.digits);
+            return code % (int) Math.Pow(10, digits);
         }
 
         private static byte[] CounterToBytes(long counter)

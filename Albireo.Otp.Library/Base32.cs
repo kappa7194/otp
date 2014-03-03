@@ -30,7 +30,7 @@
                     result[arrayIndex++] = currentByte;
                     unchecked
                     {
-                        currentByte = (byte)(value << (3 + bitsRemaining));
+                        currentByte = (byte) (value << (3 + bitsRemaining));
                     }
                     bitsRemaining += 3;
                 }

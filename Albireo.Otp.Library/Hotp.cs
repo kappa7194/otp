@@ -1,14 +1,10 @@
 ﻿namespace Albireo.Otp.Library
 {
-    public class Hotp : OtpBase
+    public static class Hotp
     {
-        public Hotp(string secret, int digits = DefaultDigits) : base(secret, digits)
+        public static int GetCode(string secret, long counter, int digits = Otp.DefaultDigits)
         {
-        }
-
-        public int GetCode(long counter)
-        {
-            return base.Generate(counter);
+            return Otp.GetCode(secret, counter, digits);
         }
     }
 }

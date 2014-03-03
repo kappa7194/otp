@@ -4,11 +4,11 @@
 
     public class HotpTests : IUseFixture<HotpFixture>
     {
-        private Hotp hotp;
+        private string secret;
 
         public void SetFixture(HotpFixture data)
         {
-            this.hotp = data.Hotp;
+            this.secret = data.Secret;
         }
 
         public class GetCodeTests : HotpTests
@@ -16,61 +16,61 @@
             [Fact]
             public void Vector1()
             {
-                Assert.Equal(755224, this.hotp.GetCode(0));
+                Assert.Equal(755224, Hotp.GetCode(this.secret, 0));
             }
 
             [Fact]
             public void Vector2()
             {
-                Assert.Equal(287082, this.hotp.GetCode(1));
+                Assert.Equal(287082, Hotp.GetCode(this.secret, 1));
             }
 
             [Fact]
             public void Vector3()
             {
-                Assert.Equal(359152, this.hotp.GetCode(2));
+                Assert.Equal(359152, Hotp.GetCode(this.secret, 2));
             }
 
             [Fact]
             public void Vector4()
             {
-                Assert.Equal(969429, this.hotp.GetCode(3));
+                Assert.Equal(969429, Hotp.GetCode(this.secret, 3));
             }
 
             [Fact]
             public void Vector5()
             {
-                Assert.Equal(338314, this.hotp.GetCode(4));
+                Assert.Equal(338314, Hotp.GetCode(this.secret, 4));
             }
 
             [Fact]
             public void Vector6()
             {
-                Assert.Equal(254676, this.hotp.GetCode(5));
+                Assert.Equal(254676, Hotp.GetCode(this.secret, 5));
             }
 
             [Fact]
             public void Vector7()
             {
-                Assert.Equal(287922, this.hotp.GetCode(6));
+                Assert.Equal(287922, Hotp.GetCode(this.secret, 6));
             }
 
             [Fact]
             public void Vector8()
             {
-                Assert.Equal(162583, this.hotp.GetCode(7));
+                Assert.Equal(162583, Hotp.GetCode(this.secret, 7));
             }
 
             [Fact]
             public void Vector9()
             {
-                Assert.Equal(399871, this.hotp.GetCode(8));
+                Assert.Equal(399871, Hotp.GetCode(this.secret, 8));
             }
 
             [Fact]
             public void Vector10()
             {
-                Assert.Equal(520489, this.hotp.GetCode(9));
+                Assert.Equal(520489, Hotp.GetCode(this.secret, 9));
             }
         }
     }
