@@ -3,9 +3,9 @@
     using System;
     using System.Linq;
 
-    public static class Base32
+    internal static class Base32
     {
-        public static byte[] ToBytes(string input)
+        internal static byte[] ToBytes(string input)
         {
             if (input == null) throw new ArgumentNullException("input");
             if (input.Length == 0) return new byte[0];
@@ -39,7 +39,7 @@
             return result;
         }
 
-        public static string ToString(byte[] input)
+        internal static string ToString(byte[] input)
         {
             if (input == null) throw new ArgumentNullException("input");
             if (input.Length == 0) return string.Empty;
