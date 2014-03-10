@@ -3,87 +3,41 @@
     using System;
     using System.Diagnostics.Contracts;
     using System.Linq;
+    using System.Text;
 
     internal static class Base32
     {
-        internal static byte[] ToBytes(string input)
+        private static readonly char[] Alphabet =
+        {
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+            'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+            'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+            'Y', 'Z', '2', '3', '4', '5', '6', '7'
+        };
+
+        internal static string Encode(byte[] input)
+        {
+            Contract.Requires<ArgumentException>(input != null);
+            Contract.Ensures(Contract.Result<string>() != null);
+            if (input.Length == 0) return string.Empty;
+            var bits = input.Select(x => Convert.ToString(x, 2).PadLeft(8, '0')).Aggregate((x, y) => x + y);
+            if (bits.Length % 5 != 0) bits += string.Concat(Enumerable.Repeat('0', 5 - bits.Length % 5));
+            var output = new StringBuilder(bits.Length / 5);
+            for (int i = 0, j = bits.Length / 5; i < j; i++) output.Append(Alphabet[Convert.ToInt32(bits.Substring(5 * i, 5), 2)]);
+            while (output.Length % 8 != 0) output.Append('=');
+            return output.ToString();
+        }
+
+        internal static byte[] Decode(string input)
         {
             Contract.Requires<ArgumentNullException>(input != null);
             Contract.Ensures(Contract.Result<byte[]>() != null);
-            if (input.Length == 0) return new byte[0];
+            if (string.IsNullOrEmpty(input)) return new byte[0];
             input = input.TrimEnd('=');
-            var byteCount = input.Length * 5 / 8;
-            var result = new byte[byteCount];
-            byte currentByte = 0, bitsRemaining = 8;
-            var arrayIndex = 0;
-            foreach (var value in input.Select(CharToValue))
-            {
-                int mask;
-                if (bitsRemaining > 5)
-                {
-                    mask = value << (bitsRemaining - 5);
-                    currentByte = (byte) (currentByte | mask);
-                    bitsRemaining -= 5;
-                }
-                else
-                {
-                    mask = value >> (5 - bitsRemaining);
-                    currentByte = (byte) (currentByte | mask);
-                    result[arrayIndex++] = currentByte;
-                    unchecked
-                    {
-                        currentByte = (byte) (value << (3 + bitsRemaining));
-                    }
-                    bitsRemaining += 3;
-                }
-            }
-            if (arrayIndex != byteCount) result[arrayIndex] = currentByte;
-            return result;
+            var bits = input.Select(x => Convert.ToString(Array.IndexOf(Alphabet, x), 2).PadLeft(5, '0')).Aggregate((x , y) => x + y);
+            var output = new byte[bits.Length / 8];
+            for (int i = 0, j = bits.Length / 8; i < j; i++) output[i] = Convert.ToByte(bits.Substring(8 * i, 8), 2);
+            return output;
         }
-
-        internal static string ToString(byte[] input)
-        {
-            Contract.Requires<ArgumentNullException>(input != null);
-            Contract.Ensures(Contract.Result<string>() != null);
-            if (input.Length == 0) return string.Empty;
-            var charCount = (int) Math.Ceiling(input.Length / 5d) * 8;
-            var result = new char[charCount];
-            byte nextChar = 0, bitsRemaining = 5;
-            var arrayIndex = 0;
-            foreach (var b in input)
-            {
-                nextChar = (byte) (nextChar | (b >> (8 - bitsRemaining)));
-                result[arrayIndex++] = ValueToChar(nextChar);
-                if (bitsRemaining < 4)
-                {
-                    nextChar = (byte) ((b >> (3 - bitsRemaining)) & 31);
-                    result[arrayIndex++] = ValueToChar(nextChar);
-                    bitsRemaining += 5;
-                }
-                bitsRemaining -= 3;
-                nextChar = (byte) ((b << bitsRemaining) & 31);
-            }
-            if (arrayIndex == charCount) return new string(result);
-            result[arrayIndex++] = ValueToChar(nextChar);
-            while (arrayIndex != charCount) result[arrayIndex++] = '=';
-            return new string(result);
-        }
-
-        private static int CharToValue(char c)
-        {
-            var value = (int) c;
-            if (value < 91 && value > 64) return value - 65;
-            if (value < 56 && value > 49) return value - 24;
-            if (value < 123 && value > 96) return value - 97;
-            throw new ArgumentException("Character is not a Base32 character.", "c");
-        }
-
-        private static char ValueToChar(byte b)
-        {
-            if (b < 26) return (char) (b + 65);
-            if (b < 32) return (char) (b + 24);
-            throw new ArgumentException("Byte is not a value Base32 value.", "b");
-        }
-
     }
 }
