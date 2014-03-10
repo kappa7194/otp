@@ -30,7 +30,14 @@
 
         internal static byte[] Decode(string input)
         {
-            throw new NotImplementedException();
+            Contract.Requires<ArgumentNullException>(input != null);
+            Contract.Ensures(Contract.Result<byte[]>() != null);
+            if (string.IsNullOrEmpty(input)) return new byte[0];
+            input = input.TrimEnd('=');
+            var bits = input.Select(x => Convert.ToString(Array.IndexOf(Alphabet, x), 2).PadLeft(5, '0')).Aggregate((x , y) => x + y);
+            var output = new byte[bits.Length / 8];
+            for (int i = 0, j = bits.Length / 8; i < j; i++) output[i] = Convert.ToByte(bits.Substring(8 * i, 8), 2);
+            return output;
         }
     }
 }
