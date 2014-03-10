@@ -4,12 +4,12 @@
 
     internal static class Base32
     {
-        internal static byte[] ToBytes(string input)
+        internal static string Encode(byte[] input)
         {
             throw new NotImplementedException();
         }
 
-        internal static string ToString(byte[] input)
+        internal static byte[] Decode(string input)
         {
             throw new NotImplementedException();
         }

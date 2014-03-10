@@ -19,8 +19,8 @@
             Contract.Requires<ArgumentOutOfRangeException>(digits > 0);
             Contract.Ensures(Contract.Result<int>() > 0);
             Contract.Ensures(Contract.Result<int>() < Math.Pow(10, digits));
-            secret = Base32.ToString(Encoding.UTF8.GetBytes(secret));
-            var generator = new HMACSHA1(Base32.ToBytes(secret));
+            secret = Base32.Encode(Encoding.UTF8.GetBytes(secret));
+            var generator = new HMACSHA1(Base32.Decode(secret));
             generator.ComputeHash(CounterToBytes(counter));
             var hmac = generator.Hash.Select(b => int.Parse(b.ToString("x2"), NumberStyles.HexNumber)).ToArray();
             var offset = hmac[19] & 0xF;
