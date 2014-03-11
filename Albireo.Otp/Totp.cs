@@ -1,4 +1,4 @@
-﻿namespace Albireo.Otp.Library
+﻿namespace Albireo.Otp
 {
     using System;
     using System.Diagnostics.Contracts;

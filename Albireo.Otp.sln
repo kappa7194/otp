@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Albireo.Otp.Library", "Albireo.Otp.Library\Albireo.Otp.Library.csproj", "{05071523-91A0-4D35-A847-276B6890666C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Albireo.Otp", "Albireo.Otp\Albireo.Otp.csproj", "{05071523-91A0-4D35-A847-276B6890666C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Albireo.Otp.Library.Tests", "Albireo.Otp.Library.Tests\Albireo.Otp.Library.Tests.csproj", "{175A2618-A93B-4687-8A1F-81CB14BE3929}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Albireo.Otp.Tests", "Albireo.Otp.Tests\Albireo.Otp.Tests.csproj", "{175A2618-A93B-4687-8A1F-81CB14BE3929}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

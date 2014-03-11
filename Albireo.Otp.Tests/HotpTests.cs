@@ -1,4 +1,4 @@
-﻿namespace Albireo.Otp.Library.Tests
+﻿namespace Albireo.Otp.Tests
 {
     using Xunit;
 

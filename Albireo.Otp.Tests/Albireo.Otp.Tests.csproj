@@ -7,8 +7,8 @@
     <ProjectGuid>{175A2618-A93B-4687-8A1F-81CB14BE3929}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Albireo.Otp.Library.Tests</RootNamespace>
-    <AssemblyName>Albireo.Otp.Library.Tests</AssemblyName>
+    <RootNamespace>Albireo.Otp.Tests</RootNamespace>
+    <AssemblyName>Albireo.Otp.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,7 +40,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base32Tests.cs" />
     <Compile Include="HotpFixture.cs" />
     <Compile Include="HotpTests.cs" />
     <Compile Include="TotpFixture.cs" />
@@ -51,7 +50,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Albireo.Otp.Library\Albireo.Otp.Library.csproj">
+    <ProjectReference Include="..\Albireo.Otp\Albireo.Otp.csproj">
       <Project>{05071523-91a0-4d35-a847-276b6890666c}</Project>
       <Name>Albireo.Otp.Library</Name>
     </ProjectReference>

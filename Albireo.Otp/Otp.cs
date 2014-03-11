@@ -1,4 +1,4 @@
-﻿namespace Albireo.Otp.Library
+﻿namespace Albireo.Otp
 {
     using System;
     using System.Collections.Generic;
@@ -7,6 +7,8 @@
     using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
+
+    using Albireo.Base32;
 
     internal static class Otp
     {
