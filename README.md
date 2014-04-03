@@ -1,10 +1,15 @@
-# C# One-Time Password
+# One-Time Password
 
-TODO
+This .NET library allows two factor authentication using either HOTP or TOTP.
 
 ## License
 
 This project is licensed under [the MIT license], you can find a copy of the license in the LICENSE.txt file.
+
+# Requirments
+
+- Microsoft Visual Studio 2013
+- Code Contracts
 
 ## Credits
 
