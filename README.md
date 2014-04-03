@@ -6,7 +6,7 @@ This .NET library allows two factor authentication using either HOTP or TOTP.
 
 This project is licensed under [the MIT license], you can find a copy of the license in the LICENSE.txt file.
 
-# Requirments
+## Requirments
 
 - Microsoft Visual Studio 2013
 - Code Contracts
