@@ -14,6 +14,8 @@
             Contract.Requires<ArgumentNullException>(secret != null);
             Contract.Requires<ArgumentNullException>(date != null);
             Contract.Requires<ArgumentOutOfRangeException>(date >= Epoch);
+            Contract.Requires<ArgumentException>(Enum.IsDefined(typeof(DateTimeKind), date.Kind));
+            Contract.Requires<ArgumentException>(date.Kind != DateTimeKind.Unspecified);
             Contract.Requires<ArgumentOutOfRangeException>(digits > 0);
             Contract.Requires<ArgumentOutOfRangeException>(interval > 0);
             Contract.Ensures(Contract.Result<int>() > 0);
