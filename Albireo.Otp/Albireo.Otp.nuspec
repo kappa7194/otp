@@ -10,7 +10,7 @@
     <summary>A library for HOTP and TOTP authentication.</summary>
     <projectUrl>https://github.com/kappa7194/otp</projectUrl>
     <iconUrl>http://i.imgur.com/Nxg6TU5.png</iconUrl>
-    <licenseUrl>https://github.com/kappa7194/otp/blob/master/LICENSE.txt</licenseUrl>
+    <licenseUrl>https://raw.githubusercontent.com/kappa7194/otp/master/LICENSE.txt</licenseUrl>
     <copyright>Copyright © 2014 Albireo</copyright>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <tags>otp hotp totp</tags>
