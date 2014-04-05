@@ -29,11 +29,9 @@
             Contract.Ensures(Contract.Result<int>() > 0);
             Contract.Ensures(Contract.Result<int>() < Math.Pow(10, digits));
 
-            secret = Base32.Encode(Encoding.UTF8.GetBytes(secret));
-
             var generator = HMAC.Create(algorithm.ToAlgorithmName());
 
-            generator.Key = Base32.Decode(secret);
+            generator.Key = Encoding.ASCII.GetBytes(secret);
             generator.ComputeHash(CounterToBytes(counter));
 
             var hmac =
