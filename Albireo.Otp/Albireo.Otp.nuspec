@@ -6,7 +6,7 @@
     <title>Albireo's HOTP and TOTP authentication library</title>
     <authors>$author$</authors>
     <description>$description$</description>
-    <releaseNotes>First usable version.</releaseNotes>
+    <releaseNotes>Add key URI support.</releaseNotes>
     <summary>A library for HOTP and TOTP authentication.</summary>
     <projectUrl>https://github.com/kappa7194/otp</projectUrl>
     <iconUrl>http://i.imgur.com/Nxg6TU5.png</iconUrl>
