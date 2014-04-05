@@ -6,7 +6,11 @@
     <title>Albireo's HOTP and TOTP authentication library</title>
     <authors>$author$</authors>
     <description>$description$</description>
-    <releaseNotes>Add key URI support.</releaseNotes>
+    <releaseNotes>
+        Add the possibility to choose the hashing algorithm used in the one-time code computation.<br />
+        This is a breaking change because it modifies the methods signatures.<br />
+        The previous fixed hashing algorithm was SHA1.
+    </releaseNotes>
     <summary>A library for HOTP and TOTP authentication.</summary>
     <projectUrl>https://github.com/kappa7194/otp</projectUrl>
     <iconUrl>http://i.imgur.com/Nxg6TU5.png</iconUrl>
