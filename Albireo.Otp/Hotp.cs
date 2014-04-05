@@ -12,6 +12,7 @@
             Contract.Requires<ArgumentOutOfRangeException>(digits > 0);
             Contract.Ensures(Contract.Result<int>() > 0);
             Contract.Ensures(Contract.Result<int>() < Math.Pow(10, digits));
+
             return Otp.GetCode(secret, counter, digits);
         }
 
