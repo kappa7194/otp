@@ -7,8 +7,8 @@
     <authors>$author$</authors>
     <description>$description$</description>
     <releaseNotes>
-        Add the possibility to choose the hashing algorithm used in the one-time code computation.<br />
-        This is a breaking change because it modifies the methods signatures.<br />
+        Add the possibility to choose the hashing algorithm used in the one-time code computation.
+        This is a breaking change because it modifies the methods signatures.
         The previous fixed hashing algorithm was SHA1.
     </releaseNotes>
     <summary>A library for HOTP and TOTP authentication.</summary>
