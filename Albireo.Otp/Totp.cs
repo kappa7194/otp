@@ -7,8 +7,6 @@
     {
         private const int DefaultPeriod = 30;
 
-        public static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-
         public static int GetCode(
             HashAlgorithm algorithm,
             string secret,
@@ -20,7 +18,6 @@
             Contract.Requires<ArgumentOutOfRangeException>(algorithm != HashAlgorithm.Unknown);
             Contract.Requires<ArgumentNullException>(secret != null);
             Contract.Requires<ArgumentNullException>(date != null);
-            Contract.Requires<ArgumentOutOfRangeException>(date >= Epoch);
             Contract.Requires<ArgumentException>(Enum.IsDefined(typeof(DateTimeKind), date.Kind));
             Contract.Requires<ArgumentException>(date.Kind != DateTimeKind.Unspecified);
             Contract.Requires<ArgumentOutOfRangeException>(digits > 0);
@@ -30,9 +27,10 @@
 
             date = date.Kind == DateTimeKind.Utc ? date : date.ToUniversalTime();
 
-            var unixTime = (long) (date.Subtract(Epoch).TotalSeconds * 1000) / (period * 1000);
+            var unixTime = date.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
+            var counter = (long) (unixTime * 1000) / (period * 1000);
 
-            return Otp.GetCode(algorithm, secret, unixTime, digits);
+            return Otp.GetCode(algorithm, secret, counter, digits);
         }
 
         public static string GetKeyUri(
