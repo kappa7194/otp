@@ -37,7 +37,7 @@
             var hmac =
                 generator
                 .Hash
-                .Select(b => int.Parse(b.ToString("x2"), NumberStyles.HexNumber))
+                .Select(b => Convert.ToInt32(b))
                 .ToArray();
 
             var offset = hmac[19] & 0xF;
