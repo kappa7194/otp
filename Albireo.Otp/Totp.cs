@@ -3,10 +3,18 @@
     using System;
     using System.Diagnostics.Contracts;
 
+    /// <summary>Time-based one-time password algorithm implementation.</summary>
     public static class Totp
     {
         private const int DefaultPeriod = 30;
 
+        /// <summary>Compute the one-time code for the given parameters.</summary>
+        /// <param name="algorithm">The hashing algorithm for the HMAC computation.</param>
+        /// <param name="secret">The ASCII-encoded base32-encoded shared secret.</param>
+        /// <param name="date">The date for which the one-time code must be computed.</param>
+        /// <param name="digits">The number of digits of the one-time codes.</param>
+        /// <param name="period">The period step used for the HMAC counter computation.</param>
+        /// <returns>The one-time code for the given date.</returns>
         public static int GetCode(
             HashAlgorithm algorithm,
             string secret,
@@ -33,6 +41,14 @@
             return Otp.GetCode(algorithm, secret, counter, digits);
         }
 
+        /// <summary>Build a URI for secret key provisioning.</summary>
+        /// <param name="algorithm">The hashing algorithm for the HMAC computation.</param>
+        /// <param name="issuer">The name of the entity issuing and maintaining the key.</param>
+        /// <param name="account">The account name for which the one-time codes will work.</param>
+        /// <param name="secret">The ASCII-encoded base32-encoded shared secret.</param>
+        /// <param name="period">The period step for the HMAC counter computation.</param>
+        /// <param name="digits">The number of digits of the one-time codes.</param>
+        /// <returns>The provisioning URI.</returns>
         public static string GetKeyUri(
             HashAlgorithm algorithm,
             string issuer,
