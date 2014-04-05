@@ -5,7 +5,7 @@
 
     public static class Totp
     {
-        public const int DefaultInterval = 30;
+        public const int DefaultPeriod = 30;
 
         public static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
@@ -13,7 +13,7 @@
             string secret,
             DateTime date,
             int digits = Otp.DefaultDigits,
-            int interval = Totp.DefaultInterval)
+            int period = Totp.DefaultPeriod)
         {
             Contract.Requires<ArgumentNullException>(secret != null);
             Contract.Requires<ArgumentNullException>(date != null);
@@ -21,13 +21,13 @@
             Contract.Requires<ArgumentException>(Enum.IsDefined(typeof(DateTimeKind), date.Kind));
             Contract.Requires<ArgumentException>(date.Kind != DateTimeKind.Unspecified);
             Contract.Requires<ArgumentOutOfRangeException>(digits > 0);
-            Contract.Requires<ArgumentOutOfRangeException>(interval > 0);
+            Contract.Requires<ArgumentOutOfRangeException>(period > 0);
             Contract.Ensures(Contract.Result<int>() > 0);
             Contract.Ensures(Contract.Result<int>() < Math.Pow(10, digits));
 
             date = date.Kind == DateTimeKind.Utc ? date : date.ToUniversalTime();
 
-            var unixTime = (long) (date.Subtract(Epoch).TotalSeconds * 1000) / (interval * 1000);
+            var unixTime = (long) (date.Subtract(Epoch).TotalSeconds * 1000) / (period * 1000);
 
             return Otp.GetCode(secret, unixTime, digits);
         }
@@ -37,7 +37,7 @@
             string account,
             byte[] secret,
             int digits = Otp.DefaultDigits,
-            int interval = Totp.DefaultInterval)
+            int period = Totp.DefaultPeriod)
         {
             Contract.Requires<ArgumentNullException>(issuer != null);
             Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(issuer));
@@ -46,7 +46,7 @@
             Contract.Requires<ArgumentNullException>(secret != null);
             Contract.Requires<ArgumentException>(secret.Length > 0);
             Contract.Requires<ArgumentOutOfRangeException>(digits > 0);
-            Contract.Requires<ArgumentOutOfRangeException>(interval > 0);
+            Contract.Requires<ArgumentOutOfRangeException>(period > 0);
             Contract.Ensures(!string.IsNullOrWhiteSpace(Contract.Result<string>()));
 
             return
@@ -58,7 +58,7 @@
                     HashAlgorithm.Sha1,
                     digits,
                     0,
-                    interval);
+                    period);
         }
     }
 }
