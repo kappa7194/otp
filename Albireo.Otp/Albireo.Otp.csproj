@@ -114,6 +114,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HashAlgorithm.cs" />
     <Compile Include="Hotp.cs" />
     <Compile Include="Otp.cs" />
     <Compile Include="OtpType.cs" />
