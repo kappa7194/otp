@@ -7,6 +7,7 @@
     using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
+    using System.Web;
 
     using Albireo.Base32;
 
@@ -28,6 +29,46 @@
             var offset = hmac[19] & 0xF;
             var code = (hmac[offset + 0] & 0x7F) << 24 | (hmac[offset + 1] & 0xFF) << 16 | (hmac[offset + 2] & 0xFF) << 8 | (hmac[offset + 3] & 0xFF);
             return code % (int) Math.Pow(10, digits);
+        }
+
+        internal static string GetKeyUri(
+            OtpType type,
+            string issuer,
+            string account,
+            byte[] secret,
+            HashAlgorithm algorithm,
+            int digits,
+            long counter,
+            int period)
+        {
+            Contract.Requires<ArgumentOutOfRangeException>(Enum.IsDefined(typeof(OtpType), type));
+            Contract.Requires<ArgumentOutOfRangeException>(type != OtpType.Unknown);
+            Contract.Requires<ArgumentNullException>(issuer != null);
+            Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(issuer));
+            Contract.Requires<ArgumentNullException>(account != null);
+            Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(account));
+            Contract.Requires<ArgumentNullException>(secret != null);
+            Contract.Requires<ArgumentException>(secret.Length > 0);
+            Contract.Requires<ArgumentOutOfRangeException>(Enum.IsDefined(typeof(HashAlgorithm), algorithm));
+            Contract.Requires<ArgumentOutOfRangeException>(algorithm != HashAlgorithm.Unknown);
+            Contract.Requires<ArgumentOutOfRangeException>(digits > 0);
+            Contract.Requires<ArgumentOutOfRangeException>(counter >= 0);
+            Contract.Requires<ArgumentOutOfRangeException>(period > 0);
+            Contract.Ensures(!string.IsNullOrWhiteSpace(Contract.Result<string>()));
+
+            return
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "otpauth://{0}/{1}:{2}?secret={3}&issuer={4}&algorithm={5}&digits={6}&counter={7}&period={8}",
+                    type.ToKeyUriValue(),
+                    HttpUtility.UrlEncode(issuer),
+                    HttpUtility.UrlEncode(account),
+                    Base32.Encode(secret),
+                    HttpUtility.UrlEncode(issuer),
+                    algorithm.ToKeyUriValue(),
+                    digits,
+                    counter,
+                    period);
         }
 
         private static byte[] CounterToBytes(long counter)
