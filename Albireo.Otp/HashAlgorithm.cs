@@ -1,6 +1,6 @@
 ﻿namespace Albireo.Otp
 {
-    internal enum HashAlgorithm : byte
+    public enum HashAlgorithm : byte
     {
         Unknown = 0,
         Md5 = 1,

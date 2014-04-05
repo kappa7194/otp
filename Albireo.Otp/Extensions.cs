@@ -48,5 +48,30 @@
                     throw new NotSupportedException();
             }
         }
+
+        internal static string ToAlgorithmName(this HashAlgorithm algorithm)
+        {
+            Contract.Requires<ArgumentOutOfRangeException>(Enum.IsDefined(typeof(HashAlgorithm), algorithm));
+            Contract.Requires<ArgumentOutOfRangeException>(algorithm != HashAlgorithm.Unknown);
+            Contract.Ensures(!string.IsNullOrWhiteSpace(Contract.Result<string>()));
+
+            switch (algorithm)
+            {
+                case HashAlgorithm.Md5:
+                    return "System.Security.Cryptography.HMACMD5";
+
+                case HashAlgorithm.Sha1:
+                    return "System.Security.Cryptography.HMACSHA1";
+
+                case HashAlgorithm.Sha256:
+                    return "System.Security.Cryptography.HMACSHA256";
+
+                case HashAlgorithm.Sha512:
+                    return "System.Security.Cryptography.HMACSHA512";
+
+                default:
+                    throw new NotSupportedException();
+            }
+        }
     }
 }

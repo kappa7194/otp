@@ -5,16 +5,19 @@
 
     public static class Totp
     {
-        public const int DefaultPeriod = 30;
+        private const int DefaultPeriod = 30;
 
         public static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
         public static int GetCode(
+            HashAlgorithm algorithm,
             string secret,
             DateTime date,
             int digits = Otp.DefaultDigits,
             int period = Totp.DefaultPeriod)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(Enum.IsDefined(typeof(HashAlgorithm), algorithm));
+            Contract.Requires<ArgumentOutOfRangeException>(algorithm != HashAlgorithm.Unknown);
             Contract.Requires<ArgumentNullException>(secret != null);
             Contract.Requires<ArgumentNullException>(date != null);
             Contract.Requires<ArgumentOutOfRangeException>(date >= Epoch);
@@ -29,16 +32,19 @@
 
             var unixTime = (long) (date.Subtract(Epoch).TotalSeconds * 1000) / (period * 1000);
 
-            return Otp.GetCode(secret, unixTime, digits);
+            return Otp.GetCode(algorithm, secret, unixTime, digits);
         }
 
         public static string GetKeyUri(
+            HashAlgorithm algorithm,
             string issuer,
             string account,
             byte[] secret,
             int digits = Otp.DefaultDigits,
             int period = Totp.DefaultPeriod)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(Enum.IsDefined(typeof(HashAlgorithm), algorithm));
+            Contract.Requires<ArgumentOutOfRangeException>(algorithm != HashAlgorithm.Unknown);
             Contract.Requires<ArgumentNullException>(issuer != null);
             Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(issuer));
             Contract.Requires<ArgumentNullException>(account != null);
@@ -55,7 +61,7 @@
                     issuer,
                     account,
                     secret,
-                    HashAlgorithm.Sha1,
+                    algorithm,
                     digits,
                     0,
                     period);

@@ -15,8 +15,14 @@
     {
         internal const int DefaultDigits = 6;
 
-        internal static int GetCode(string secret, long counter, int digits)
+        internal static int GetCode(
+            HashAlgorithm algorithm,
+            string secret,
+            long counter,
+            int digits)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(Enum.IsDefined(typeof(HashAlgorithm), algorithm));
+            Contract.Requires<ArgumentOutOfRangeException>(algorithm != HashAlgorithm.Unknown);
             Contract.Requires<ArgumentNullException>(secret != null);
             Contract.Requires<ArgumentOutOfRangeException>(counter >= 0);
             Contract.Requires<ArgumentOutOfRangeException>(digits > 0);
@@ -25,8 +31,9 @@
 
             secret = Base32.Encode(Encoding.UTF8.GetBytes(secret));
 
-            var generator = new HMACSHA1(Base32.Decode(secret));
+            var generator = HMAC.Create(algorithm.ToAlgorithmName());
 
+            generator.Key = Base32.Decode(secret);
             generator.ComputeHash(CounterToBytes(counter));
 
             var hmac =
