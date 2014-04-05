@@ -2,6 +2,8 @@
 
 This .NET library allows two factor authentication using either HOTP or TOTP.
 
+A NuGet package is available at https://www.nuget.org/packages/Albireo.Otp/
+
 ## License
 
 This project is licensed under [the MIT license], you can find a copy of the license in the LICENSE.txt file.
