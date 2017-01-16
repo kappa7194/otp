@@ -11,31 +11,31 @@
         /// <summary>Compute the one-time code for the given parameters.</summary>
         /// <param name="algorithm">The hashing algorithm for the HMAC computation.</param>
         /// <param name="secret">The ASCII-encoded base32-encoded shared secret.</param>
-        /// <param name="date">The date for which the one-time code must be computed.</param>
+        /// <param name="datetime">The date with time for which the one-time code must be computed.</param>
         /// <param name="digits">The number of digits of the one-time codes.</param>
         /// <param name="period">The period step used for the HMAC counter computation.</param>
         /// <returns>The one-time code for the given date.</returns>
         public static int GetCode(
             HashAlgorithm algorithm,
             string secret,
-            DateTime date,
+            DateTime datetime,
             int digits = Otp.DefaultDigits,
             int period = Totp.DefaultPeriod)
         {
             Contract.Requires<ArgumentOutOfRangeException>(Enum.IsDefined(typeof(HashAlgorithm), algorithm));
             Contract.Requires<ArgumentOutOfRangeException>(algorithm != HashAlgorithm.Unknown);
             Contract.Requires<ArgumentNullException>(secret != null);
-            Contract.Requires<ArgumentNullException>(date != null);
-            Contract.Requires<ArgumentException>(Enum.IsDefined(typeof(DateTimeKind), date.Kind));
-            Contract.Requires<ArgumentException>(date.Kind != DateTimeKind.Unspecified);
+            Contract.Requires<ArgumentNullException>(datetime != null);
+            Contract.Requires<ArgumentException>(Enum.IsDefined(typeof(DateTimeKind), datetime.Kind));
+            Contract.Requires<ArgumentException>(datetime.Kind != DateTimeKind.Unspecified);
             Contract.Requires<ArgumentOutOfRangeException>(digits > 0);
             Contract.Requires<ArgumentOutOfRangeException>(period > 0);
             Contract.Ensures(Contract.Result<int>() > 0);
             Contract.Ensures(Contract.Result<int>() < Math.Pow(10, digits));
 
-            date = date.Kind == DateTimeKind.Utc ? date : date.ToUniversalTime();
+            datetime = datetime.Kind == DateTimeKind.Utc ? datetime : datetime.ToUniversalTime();
 
-            var unixTime = date.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
+            var unixTime = datetime.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
             var counter = (long) (unixTime * 1000) / (period * 1000);
 
             return Otp.GetCode(algorithm, secret, counter, digits);
